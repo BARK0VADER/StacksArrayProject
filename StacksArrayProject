@@ -1,80 +1,123 @@
-#include<iostream>
+#include <iostream>
 #include <string>
+#include <stack>
 using namespace std;
+//Stacks and Arrays Programming Project
+//Alexandra Gutierrez & Wynter Horrigan
 
-struct Stack
+//Checking if stack is empty
+bool empty(stack<int>& numbers)
+    {
+    return numbers.empty();
+    }
 
-int main()
+//Function to push a number to the stack
+void push(stack<int>& numbers)
 {
-    stack<int> numbers;
-    cout << "size: " << numbers.size() << endl;
+    int temp;
+    cout << "Enter a number between 0 and 99:" << endl;
+    cin >> temp;
     
-    if (numbers.empty())
+    if (temp >= 0 && temp <= 99)
     {
-        cout << "Stack is empty." << endl;
+        numbers.push(temp);
     }
-    numbers.push(8);
-    cout << "size: " << numbers.size() << endl;
-    
-    if (!numbers.empty())
+    else 
     {
-        cout << "Stack is not empty" << endl;
+        cout << "Input invalid. Please enter a number between 0 and 99." << endl;
     }
-    
-    cout << "top: " << numbers.top() << endl;
-    
-    numbers.pop();
-    
-    
 }
 
-int searchArray(string array[], int size, string element);
-
-int main()
+//Function to pop a number from the stack
+void pop(stack<int>& numbers)
 {
-    string choice[] = {"A", "B", "C", "D"};
-    int size = sizeof(choice)/sizeof(choice[0]);
-    int index;
-    string myChoice;
-
-    cout << "Stack Menu Prompt" << endl;
-    cout << "Type A to push a number to the stack" << endl;
-    cout << "Type B to pop a number from the stack" << endl;
-    cout << "Type C to output the top of the stack" << endl;
-    cout << "Type D to purge the stack" << endl;
-    
-    getline(cin, myChoice);
-
-    index = searchArray(choice, size, myChoice);
-
-    if(index == 0)
+    if (empty(numbers))
     {
-        cout << "choice1" << endl;
+        cout << "Error: Underflow. Stack is empty." << endl;
     }
-    else if(index == 1)
-    {
-        cout << "choice2" << endl;
-    }
-    else if(index == 2)
-    {
-        cout << "choice3" << endl;
-    }
-    else if(index == 3)
-    {
-        cout << "choice4" << endl;
-    } 
     else
     {
-        cout << "try again bozo" << endl;
+        numbers.pop();
     }
-    return 0;
 }
-int searchArray(string array[], int size, string element){
 
-    for(int i = 0; i < size; i++){
-        if(array[i] == element){
+//Function to output the top element of the stack
+void top(stack<int>& numbers)
+{
+    if (empty(numbers))
+    {
+        cout << "Error, stack is empty." << endl;
+    }
+    else
+    {
+        cout << "Top of stack: " << numbers.top() << endl;
+    }
+}
+
+//Function to purge the stack (clear all elements)
+void purge(stack<int>& numbers)
+{
+    while (!empty(numbers))
+    {
+        numbers.pop();
+    }
+    cout << "Stack is now empty." << endl;
+}
+
+//Function to search for an element in the array (for menu options)
+int searchArray(string array[], int size, string element)
+{
+    for (int i = 0; i < size; i++)
+    {
+        if (array[i] == element)
+        {
             return i;
         }
     }
     return -1;
+}
+
+int main() {
+    stack<int> numbers;
+    string myArray[] = {"A", "B", "C", "D", "E"};
+    int size = sizeof(myArray) / sizeof(myArray[0]);
+    int index;
+    string myChoice;
+
+    while (true) {
+        //Menu
+        cout << "\nStack Menu Prompt" << endl;
+        cout << "Type A to push a number to the stack" << endl;
+        cout << "Type B to pop a number from the stack" << endl;
+        cout << "Type C to output the top of the stack" << endl;
+        cout << "Type D to purge the stack" << endl;
+        //Input from user for the Menu
+        cin >> myChoice;
+
+        index = searchArray(myArray, size, myChoice);
+
+        //Output actions based on user input
+        if (index == 0)
+        {
+            push(numbers);
+        }
+        else if (index == 1)
+        {
+            pop(numbers);
+        }
+        else if (index == 2)
+        {
+            top(numbers);
+        }
+        else if (index == 3)
+        {
+            purge(numbers);
+        }
+        else
+        {
+            cout << "Invalid choice. Please try again." << endl;
+        }
+    }
+
+    return 0;
 }
